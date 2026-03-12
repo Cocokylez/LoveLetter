@@ -1,97 +1,85 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>A Letter For You 💌</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Sacramento&family=Lato:wght@300;400&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <!-- Background particles -->
-    <canvas id="particles"></canvas>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A Letter For You 💌</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Sacramento&family=Lato:wght@300;400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
 
-    <!-- Main scene -->
-    <div class="scene" id="scene">
-      <!-- Hint text -->
-      <p class="hint" id="hint">✦ click to open ✦</p>
+  <!-- Background particles -->
+  <canvas id="particles"></canvas>
 
-      <!-- Letter lives OUTSIDE envelope so it survives envelope disappear -->
-      <div class="letter-container" id="letterContainer">
-        <div class="letter-paper">
-          <!-- Outer decorations (sit above both panels) -->
-          <div class="letter-border"></div>
-          <div class="corner-deco tl">🌸</div>
-          <div class="corner-deco tr">🌸</div>
-          <div class="corner-deco bl">🌸</div>
-          <div class="corner-deco br">🌸</div>
+  <!-- Main scene -->
+  <div class="scene" id="scene">
 
-          <!-- LEFT decorative panel -->
-          <div class="letter-left-panel">
-            <div class="panel-monogram">♡</div>
-            <div class="panel-divider"></div>
-            <div class="panel-flowers">
-              <span>🌷</span>
-              <span>🌸</span>
-              <span>🌺</span>
-            </div>
-            <div class="panel-divider"></div>
-            <div class="panel-date">with love</div>
+    <!-- Hint text -->
+    <p class="hint" id="hint">✦ click to open ✦</p>
+
+    <!-- Letter lives OUTSIDE envelope so it survives envelope disappear -->
+    <div class="letter-container" id="letterContainer">
+      <div class="letter-paper">
+
+        <!-- Outer decorations (sit above both panels) -->
+        <div class="letter-border"></div>
+        <div class="corner-deco tl">❤️</div>
+        <div class="corner-deco tr">❤️</div>
+        <div class="corner-deco bl">❤️</div>
+        <div class="corner-deco br">❤️</div>
+
+        <!-- LEFT decorative panel -->
+        <div class="letter-left-panel">
+          <div class="panel-monogram">♡</div>
+          <div class="panel-divider"></div>
+          <div class="panel-flowers">
+            <span>🌷</span>
+            <span>🌸</span>
+            <span>🌺</span>
           </div>
-
-          <!-- RIGHT content panel -->
-          <div class="letter-right-panel">
-            <div class="postmark">
-              <span class="heart-stamp">♡</span>
-              <span>sealed<br />with love</span>
-            </div>
-
-            <h1 class="letter-heading" id="letterHeading">My Love,</h1>
-
-            <div class="letter-body">
-              <p id="p1">
-                I wish I could send you flowers today, or hold your hand and
-                tell you everything in person. But since distance won't let me
-                do that right now, I made this little page for you instead.
-              </p>
-              <p id="p2">
-                I just want you to know how much you mean to me. Even on normal
-                days, you're always in my thoughts. And when things get hard for
-                you, I wish I could be there to make it easier.
-              </p>
-              <p id="p3">
-                You're strong, you're beautiful, and you deserve so much
-                happiness. If today feels heavy, just remember you're not facing
-                it alone. I'm always here for you, even if it's from far away.
-              </p>
-              <p id="p4">
-                I miss you. I care about you so much.<br />And I'm really lucky
-                to have you in my life.
-              </p>
-              <p id="p5">— Yours ❤️</p>
-            </div>
-          </div>
+          <div class="panel-divider"></div>
+          <div class="panel-date">with love</div>
         </div>
-      </div>
 
-      <!-- Envelope wrapper -->
-      <div class="envelope-wrap" id="envelopeWrap">
-        <div class="envelope" id="envelope">
-          <div class="env-body"></div>
-          <div class="env-left"></div>
-          <div class="env-right"></div>
-          <div class="env-bottom"></div>
-          <div class="env-flap" id="envFlap"></div>
-          <div class="seal" id="seal">❦</div>
+        <!-- RIGHT content panel -->
+        <div class="letter-right-panel">
+
+          <div class="postmark">
+            <span class="heart-stamp">❤</span>
+            <span>sealed<br>with love</span>
+          </div>
+
+          <h1 class="letter-heading" id="letterHeading">My Love,</h1>
+
+          <div class="letter-body">
+            <p id="p1">I wish I could send you flowers today, or hold your hand and tell you everything in person. But since distance won't let me do that right now, I made this little page for you instead.</p>
+            <p id="p2">I just want you to know how much you mean to me. Even on normal days, you're always in my thoughts. And when things get hard for you, I wish I could be there to make it easier.</p>
+            <p id="p3">You're strong, you're beautiful, and you deserve so much happiness. If today feels heavy, just remember you're not facing it alone. I'm always here for you, even if it's from far away.</p>
+            <p id="p4">I miss you. I care about you so much.<br>And I'm really lucky to have you in my life.</p>
+            <p id="p5">— Yours ❤️</p>
+          </div>
+
         </div>
       </div>
     </div>
 
-    <script src="script.js"></script>
-  </body>
+    <!-- Envelope wrapper -->
+    <div class="envelope-wrap" id="envelopeWrap">
+      <div class="envelope" id="envelope">
+        <div class="env-body"></div>
+        <div class="env-left"></div>
+        <div class="env-right"></div>
+        <div class="env-bottom"></div>
+        <div class="env-flap" id="envFlap"></div>
+        <div class="seal" id="seal">❦</div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
 </html>
