@@ -1,258 +1,25 @@
-/* ═══════════════════════════════════════
-   CSS VARIABLES & RESET
-═══════════════════════════════════════ */
-:root {
-  --cream: #fdf6ec;
-  --parchment: #f5e6d0;
-  --blush: #e8b4b8;
-  --rose: #c0606a;
-  --deep-rose: #8b3a42;
-  --gold: #c9a96e;
-  --dark: #2a1a1e;
-  --shadow: rgba(139, 58, 66, 0.18);
-}
-
-*,
-*::before,
-*::after {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-/* ═══════════════════════════════════════
-   BODY & BACKGROUND
-═══════════════════════════════════════ */
-body {
-  background: var(--cream);
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-family: "Cormorant Garamond", serif;
-  overflow-x: hidden;
-}
-
-/* Grain texture overlay */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 1;
-  opacity: 0.4;
-}
-
-#particles {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* ═══════════════════════════════════════
-   SCENE
-═══════════════════════════════════════ */
-.scene {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 28px;
-  padding: 24px 16px;
-  width: 100%;
-}
-
-.hint {
-  font-family: "Lato", sans-serif;
-  font-weight: 300;
-  font-size: 13px;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: var(--rose);
-  opacity: 0;
-  animation: fadeInHint 1s ease 0.8s forwards;
-  transition: opacity 0.5s ease;
-}
-
-.hint.hidden {
-  opacity: 0 !important;
-  pointer-events: none;
-}
-
-/* ═══════════════════════════════════════
-   ENVELOPE
-═══════════════════════════════════════ */
-.envelope-wrap {
-  perspective: 1000px;
-  cursor: pointer;
-}
-
-.envelope {
-  width: 380px;
-  height: 260px;
-  position: relative;
-  transform-style: preserve-3d;
-  filter: drop-shadow(0 20px 40px var(--shadow));
-  transition:
-    filter 0.3s ease,
-    transform 0.3s ease;
-}
-
-.envelope-wrap:hover .envelope {
-  transform: translateY(-6px);
-  filter: drop-shadow(0 28px 50px var(--shadow));
-}
-
-.envelope.shaking {
-  animation: shake 0.55s cubic-bezier(0.36, 0.07, 0.19, 0.97) forwards;
-}
-
-.envelope.disappear {
-  animation: envelopeFadeOut 0.6s ease forwards;
-}
-
-/* Envelope layers */
-.env-body {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    160deg,
-    #f0d5b8 0%,
-    var(--parchment) 60%,
-    #e8cda8 100%
-  );
-  border-radius: 4px 4px 8px 8px;
-}
-
-.env-body::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(
-      to bottom-right,
-      transparent 49.5%,
-      rgba(180, 130, 90, 0.15) 50%
-    ),
-    linear-gradient(
-      to bottom-left,
-      transparent 49.5%,
-      rgba(180, 130, 90, 0.15) 50%
-    );
-}
-
-.env-bottom {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 50%;
-  background: linear-gradient(to bottom, #e2c49a, #d4b080);
-  clip-path: polygon(0 100%, 50% 0%, 100% 100%);
-  border-radius: 0 0 8px 8px;
-}
-
-.env-left {
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 50%;
-  background: linear-gradient(to right, #dfc090, #e8d0a8);
-  clip-path: polygon(0 0, 100% 50%, 0 100%);
-}
-
-.env-right {
-  position: absolute;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  width: 50%;
-  background: linear-gradient(to left, #dfc090, #e8d0a8);
-  clip-path: polygon(100% 0, 0 50%, 100% 100%);
-}
-
-.env-flap {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 55%;
-  background: linear-gradient(to bottom, #e8c898, #d4ae74);
-  clip-path: polygon(0 0, 50% 85%, 100% 0);
-  transform-origin: top center;
-  transform-style: preserve-3d;
-  transition: transform 0.75s cubic-bezier(0.4, 0, 0.2, 1);
-  z-index: 10;
-  border-radius: 4px 4px 0 0;
-}
-
-.env-flap.open {
-  transform: rotateX(-180deg);
-}
-
-/* Wax seal */
-.seal {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 54px;
-  height: 54px;
-  background: radial-gradient(circle at 40% 35%, #d4607a, var(--deep-rose));
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 22px;
-  box-shadow:
-    0 3px 12px rgba(139, 58, 66, 0.5),
-    inset 0 1px 3px rgba(255, 255, 255, 0.2);
-  z-index: 20;
-  transition:
-    transform 0.4s ease,
-    opacity 0.4s ease;
-  cursor: pointer;
-}
-
-.seal.broken {
-  transform: translate(-50%, -50%) scale(0) rotate(45deg);
-  opacity: 0;
-}
-
-/* ═══════════════════════════════════════
-   LETTER CONTAINER
-═══════════════════════════════════════ */
+/* LETTER CONTAINER */
 .letter-container {
-  /* Starts hidden, positioned over the envelope */
   position: absolute;
   top: 50px;
   left: 50%;
   transform: translateX(-50%);
-  /* Landscape letter: A4-ish ratio ~1.41 wide, capped for screen */
-  width: min(720px, 94vw);
+  width: min(760px, 92vw);           /* slightly wider base */
+  max-width: 780px;
   z-index: 10;
   opacity: 0;
   pointer-events: none;
   transition:
-    top 0.9s cubic-bezier(0.34, 1.56, 0.64, 1),
-    opacity 0.5s ease;
+    top 0.95s cubic-bezier(0.34, 1.48, 0.64, 1.2),
+    opacity 0.55s ease;
 }
 
 .letter-container.rising {
-  top: -520px;
+  top: -580px;                       /* tuned rise distance – adjust if needed */
   opacity: 1;
   pointer-events: auto;
 }
 
-/* Once envelope is gone, settle into normal flow */
 .letter-container.settled {
   position: relative;
   top: auto;
@@ -263,389 +30,52 @@ body::before {
   transition: none;
 }
 
-/* ═══════════════════════════════════════
-   LETTER PAPER — landscape two-column
-═══════════════════════════════════════ */
+/* LETTER PAPER — aim for ~1.45:1 ratio landscape */
 .letter-paper {
   background: linear-gradient(180deg, #fffdf8 0%, #fdf8f0 100%);
-  border-radius: 4px;
-  /* Two-column: narrow decorative left | wide content right */
-  display: grid;
-  grid-template-columns: 150px 1fr;
-  min-height: 400px;
+  border-radius: 5px;
+  aspect-ratio: 1.44 / 1;            /* ← most important change – real letter feeling */
+  width: 100%;
+  min-height: 380px;                 /* fallback if aspect-ratio not supported */
+  max-height: 94vh;                  /* prevent insane height on small screens */
   box-shadow:
-    0 10px 40px rgba(0, 0, 0, 0.1),
-    0 2px 6px rgba(0, 0, 0, 0.06),
-    inset 0 0 0 1px rgba(201, 169, 110, 0.2);
+    0 12px 48px rgba(0,0,0,0.11),
+    0 3px 8px rgba(0,0,0,0.07),
+    inset 0 0 0 1px rgba(201,169,110,0.18);
   position: relative;
   overflow: hidden;
+  display: grid;
+  grid-template-columns: 160px 1fr;  /* left panel still narrow */
 }
 
-/* Thin gold border inset */
-.letter-border {
-  position: absolute;
-  inset: 7px;
-  border: 1px solid rgba(201, 169, 110, 0.22);
-  border-radius: 3px;
-  pointer-events: none;
-  z-index: 3;
-}
-
-/* Corner flower decorations */
-.corner-deco {
-  position: absolute;
-  font-size: 15px;
-  opacity: 0.28;
-  pointer-events: none;
-  z-index: 4;
-}
-.corner-deco.tl {
-  top: 11px;
-  left: 11px;
-}
-.corner-deco.tr {
-  top: 11px;
-  right: 11px;
-  transform: scaleX(-1);
-}
-.corner-deco.bl {
-  bottom: 11px;
-  left: 11px;
-  transform: scaleY(-1);
-}
-.corner-deco.br {
-  bottom: 11px;
-  right: 11px;
-  transform: scale(-1);
-}
-
-/* ═══════════════════════════════════════
-   LEFT DECORATIVE PANEL
-═══════════════════════════════════════ */
-.letter-left-panel {
-  background: linear-gradient(175deg, #f5e6d0 0%, #eddcba 100%);
-  border-right: 1px solid rgba(201, 169, 110, 0.4);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-  padding: 36px 20px;
-  position: relative;
-  z-index: 1;
-}
-
-/* Soft gold edge line */
-.letter-left-panel::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  right: -1px;
-  bottom: 0;
-  width: 3px;
-  background: linear-gradient(
-    to bottom,
-    transparent,
-    rgba(201, 169, 110, 0.45) 20%,
-    rgba(201, 169, 110, 0.45) 80%,
-    transparent
-  );
-}
-
-.panel-monogram {
-  font-family: "Sacramento", cursive;
-  font-size: 56px;
-  color: var(--rose);
-  line-height: 1;
-  opacity: 0.8;
-}
-
-.panel-divider {
-  width: 36px;
-  height: 1px;
-  background: linear-gradient(to right, transparent, var(--gold), transparent);
-}
-
-.panel-flowers {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  font-size: 20px;
-  opacity: 0.65;
-}
-
-.panel-date {
-  font-family: "Lato", sans-serif;
-  font-size: 9px;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--deep-rose);
-  opacity: 0.65;
-  text-align: center;
-}
-
-/* ═══════════════════════════════════════
-   RIGHT CONTENT PANEL
-═══════════════════════════════════════ */
-.letter-right-panel {
-  padding: 40px 44px 36px 36px;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  z-index: 1;
-}
-
-/* Ruled lines */
-.letter-right-panel::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(
-    transparent,
-    transparent 27px,
-    rgba(201, 169, 110, 0.1) 27px,
-    rgba(201, 169, 110, 0.1) 28px
-  );
-  pointer-events: none;
-}
-
-/* Postmark stamp */
-.postmark {
-  position: absolute;
-  top: 16px;
-  right: 20px;
-  width: 54px;
-  height: 54px;
-  border: 2px solid rgba(192, 96, 106, 0.28);
-  border-radius: 50%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: rgba(192, 96, 106, 0.45);
-  transform: rotate(15deg);
-  pointer-events: none;
-}
-
-.postmark span {
-  font-family: "Lato", sans-serif;
-  font-size: 6.5px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  display: block;
-  text-align: center;
-  line-height: 1.5;
-}
-
-.postmark .heart-stamp {
-  font-size: 15px;
-  line-height: 1;
-  margin-bottom: 2px;
-}
-
-/* ═══════════════════════════════════════
-   LETTER TYPOGRAPHY
-═══════════════════════════════════════ */
-.letter-heading {
-  font-family: "Sacramento", cursive;
-  font-size: 40px;
-  color: var(--rose);
-  margin-bottom: 16px;
-  line-height: 1;
-  opacity: 0;
-  transform: translateY(10px);
-  transition:
-    opacity 0.7s ease,
-    transform 0.7s ease;
-  position: relative;
-  z-index: 1;
-}
-
-.letter-heading.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.letter-body {
-  font-family: "Cormorant Garamond", serif;
-  font-size: 16px;
-  font-weight: 300;
-  line-height: 1.85;
-  color: var(--dark);
-  position: relative;
-  z-index: 1;
-  flex: 1;
-}
-
-.letter-body p {
-  margin-bottom: 14px;
-  opacity: 0;
-  transform: translateY(8px);
-  transition:
-    opacity 0.6s ease,
-    transform 0.6s ease;
-}
-
-.letter-body p:last-child {
-  margin-bottom: 0;
-  font-family: "Sacramento", cursive;
-  font-size: 28px;
-  color: var(--rose);
-  text-align: right;
-  margin-top: 10px;
-}
-
-.letter-body p.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* ═══════════════════════════════════════
-   FLOATING HEARTS
-═══════════════════════════════════════ */
-.floating-heart {
-  position: fixed;
-  pointer-events: none;
-  z-index: 100;
-  animation: floatHeart linear forwards;
-  will-change: transform, opacity;
-}
-
-/* ═══════════════════════════════════════
-   KEYFRAME ANIMATIONS
-═══════════════════════════════════════ */
-@keyframes fadeInHint {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes shake {
-  0% {
-    transform: translateX(0) rotate(0deg);
-  }
-  10% {
-    transform: translateX(-8px) rotate(-3deg);
-  }
-  20% {
-    transform: translateX(8px) rotate(3deg);
-  }
-  30% {
-    transform: translateX(-7px) rotate(-2.5deg);
-  }
-  40% {
-    transform: translateX(7px) rotate(2.5deg);
-  }
-  50% {
-    transform: translateX(-5px) rotate(-1.5deg);
-  }
-  60% {
-    transform: translateX(5px) rotate(1.5deg);
-  }
-  70% {
-    transform: translateX(-3px) rotate(-1deg);
-  }
-  80% {
-    transform: translateX(3px) rotate(1deg);
-  }
-  90% {
-    transform: translateX(-1px) rotate(-0.5deg);
-  }
-  100% {
-    transform: translateX(0) rotate(0deg);
-  }
-}
-
-@keyframes envelopeFadeOut {
-  0% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-  40% {
-    opacity: 1;
-    transform: translateY(10px) scale(0.97);
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(40px) scale(0.85);
-  }
-}
-
-@keyframes floatHeart {
-  0% {
-    transform: translateY(0) rotate(0deg) scale(1);
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(-110vh) rotate(720deg) scale(0.3);
-    opacity: 0;
-  }
-}
-
-/* ═══════════════════════════════════════
-   RESPONSIVE — MOBILE
-   Collapses to single-column portrait
-═══════════════════════════════════════ */
-@media (max-width: 600px) {
-  /* Smaller envelope */
-  .envelope {
-    width: 300px;
-    height: 205px;
+/* Mobile – collapse to portrait/stacked */
+@media (max-width: 640px) {          /* slightly higher breakpoint feels better */
+  .letter-container {
+    width: min(94vw, 420px);
   }
 
-  /* Switch to single-column stacked layout */
   .letter-paper {
+    aspect-ratio: auto;              /* disable forced landscape ratio */
     grid-template-columns: 1fr;
     min-height: auto;
+    max-height: none;
   }
 
-  /* Left panel becomes a slim horizontal header bar */
-  .letter-left-panel {
-    flex-direction: row;
-    justify-content: center;
-    gap: 18px;
-    padding: 16px 24px;
-    border-right: none;
-    border-bottom: 1px solid rgba(201, 169, 110, 0.3);
+  .letter-container.rising {
+    top: -720px;                     /* more rise needed because taller now */
   }
 
-  .letter-left-panel::after {
-    display: none;
-  }
-
-  .panel-monogram {
-    font-size: 34px;
-  }
-  .panel-flowers {
-    flex-direction: row;
-    gap: 6px;
-    font-size: 16px;
-  }
-  .panel-divider {
-    display: none;
-  }
-  .panel-date {
-    display: none;
-  }
-
-  /* Tighten right panel padding */
   .letter-right-panel {
-    padding: 24px 22px 22px;
+    padding: 28px 24px 32px;
   }
 
   .letter-heading {
-    font-size: 32px;
-  }
-  .letter-body {
-    font-size: 15px;
+    font-size: 34px;
+    margin-bottom: 20px;
   }
 
-  /* Letter rises higher since it's taller on mobile */
-  .letter-container.rising {
-    top: -640px;
+  .letter-body {
+    font-size: 15.5px;
+    line-height: 1.82;
   }
 }
