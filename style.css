@@ -196,11 +196,10 @@ body::before {
   top: 28px;
   left: 50%;
   transform: translateX(-50%);
-  width: 360px;
+  width: min(360px, 92vw);
   z-index: 10;
   opacity: 0;
   pointer-events: none;
-  /* Two properties transition independently */
   transition:
     top     1.0s var(--ease-spring),
     opacity 0.55s ease;
@@ -213,12 +212,17 @@ body::before {
 }
 
 .letter-container.settled {
+  /* Stay absolutely positioned but re-center properly */
   position: relative;
-  top: auto; left: auto;
+  top: auto;
+  left: auto;
   transform: none;
+  margin: 0 auto;
   opacity: 1;
   pointer-events: auto;
   transition: none;
+  /* Ensure it never overflows on small screens */
+  width: min(360px, 92vw);
 }
 
 
@@ -403,11 +407,11 @@ body::before {
 /* ═══════════════════════════════════════
    RESPONSIVE
 ═══════════════════════════════════════ */
-@media (max-width: 440px) {
-  .envelope { width: 310px; height: 212px; }
-  .letter-container { width: 290px; }
-  .letter-paper { padding: 28px 22px 26px; }
+@media (max-width: 480px) {
+  .envelope { width: min(310px, 88vw); height: 212px; }
+  .letter-paper { padding: 28px 20px 24px; }
   .letter-heading { font-size: 34px; }
   .letter-body { font-size: 15px; }
-  .letter-container.rising { top: -500px; }
+  .letter-container.rising { top: -520px; }
+  .scene { padding: 16px 12px; }
 }
